@@ -21,10 +21,11 @@ export default class MultipeerConnection extends EventEmitter {
       'RCTMultipeerConnectivityPeerLost',
       ((event) => {
         var peer = this._peers[event.peer.id];
+        var id = peer.id
         peer.emit('lost');
-        this.emit('peerLost', { peer: { id: peer.id } });
         delete this._peers[event.peer.id];
         delete this._connectedPeers[event.peer.id];
+        this.emit('peerLost', { peer: { id: id } });
       }).bind(this));
     
     var peerConnected = DeviceEventEmitter.addListener(
